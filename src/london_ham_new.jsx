@@ -143,6 +143,160 @@ export default function LondonHamPortfolio() {
         .wf-card:hover { border-color: ${C.blue} !important; transform: translateY(-2px); }
         .wf-card { transition: border-color 0.2s, transform 0.2s; }
 
+        @media (max-width: 900px) {
+          .site-nav {
+            height: auto !important;
+            flex-wrap: wrap !important;
+          }
+
+          .nav-brand {
+            width: 100% !important;
+            border-right: none !important;
+            border-bottom: 1px solid ${C.border} !important;
+            padding: 12px 20px !important;
+          }
+
+          .nav-brand span {
+            font-size: 16px !important;
+          }
+
+          .nav-links {
+            width: 100% !important;
+            padding: 10px 20px !important;
+            gap: 18px !important;
+            overflow-x: auto !important;
+            flex: none !important;
+          }
+
+          .nav-tagline,
+          .nav-clock {
+            display: none !important;
+          }
+
+          .hero-section {
+            min-height: 72vh !important;
+            padding: 24px 20px 28px !important;
+          }
+
+          .hero-rule {
+            left: 20px !important;
+          }
+
+          .hero-title {
+            font-size: clamp(38px, 14vw, 62px) !important;
+            line-height: 0.95 !important;
+            letter-spacing: 0 !important;
+            max-width: 100% !important;
+            margin-top: 32px !important;
+          }
+
+          .hero-buttons {
+            width: calc(100% + 40px) !important;
+            margin-left: -20px !important;
+            margin-bottom: -28px !important;
+            gap: 8px !important;
+          }
+
+          .hero-buttons a {
+            max-width: calc(50% - 4px) !important;
+            padding: 12px 10px !important;
+            font-size: 10px !important;
+            letter-spacing: 0.08em !important;
+            line-height: 1.25 !important;
+          }
+
+          .content-section,
+          .section-inner,
+          .footer-inner,
+          .footer-name {
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+          }
+
+          .project-head {
+            flex-direction: column !important;
+            gap: 16px !important;
+            margin-bottom: 32px !important;
+          }
+
+          .project-meta {
+            text-align: left !important;
+            padding-top: 0 !important;
+          }
+
+          .grid-2,
+          .grid-3,
+          .grid-4,
+          .statement-grid,
+          .abstract-grid,
+          .cv-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2px !important;
+          }
+
+          .workflow-grid,
+          .pipeline-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+
+          .pipeline-cell,
+          .pipeline-cell-expanded {
+            grid-column: auto !important;
+          }
+
+          .sticky-note {
+            position: static !important;
+          }
+
+          .references-row {
+            grid-template-columns: 34px 1fr !important;
+            gap: 8px !important;
+            align-items: start !important;
+          }
+
+          .references-title {
+            grid-column: 2 !important;
+          }
+
+          .references-author,
+          .references-title {
+            font-size: 12px !important;
+          }
+
+          .split-actions {
+            justify-content: center !important;
+          }
+
+          .spec-row {
+            align-items: flex-start !important;
+            gap: 12px !important;
+          }
+
+          .footer-inner {
+            align-items: flex-start !important;
+          }
+        }
+
+        @media (max-width: 560px) {
+          .workflow-grid,
+          .pipeline-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          .hero-buttons {
+            flex-direction: column !important;
+          }
+
+          .hero-buttons a {
+            max-width: none !important;
+            width: auto !important;
+          }
+
+          .deliverables-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
         @keyframes pulse-dot { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
         @keyframes grain {
           0%,100% { background-position: 0 0; }
@@ -165,7 +319,7 @@ export default function LondonHamPortfolio() {
       }} />
 
       {/* ── NAV ───────────────────────────────────────────────────────── */}
-      <nav style={{
+      <nav className="site-nav" style={{
         position: "sticky", top: 0, zIndex: 50,
         borderBottom: `1px solid ${C.border}`,
         backdropFilter: "blur(18px)",
@@ -173,7 +327,7 @@ export default function LondonHamPortfolio() {
         display: "flex", alignItems: "stretch", height: 52,
       }}>
         {/* wordmark */}
-        <div style={{
+        <div className="nav-brand" style={{
           display: "flex", alignItems: "center",
           borderRight: `1px solid ${C.border}`, padding: "0 28px",
           flexShrink: 0,
@@ -184,14 +338,14 @@ export default function LondonHamPortfolio() {
         </div>
 
         {/* links */}
-        <div style={{ display: "flex", alignItems: "center", padding: "0 24px", gap: 28, flex: 1 }}>
+        <div className="nav-links" style={{ display: "flex", alignItems: "center", padding: "0 24px", gap: 28, flex: 1 }}>
           {[["#tfa","T.F.A."],["#cinelora","cineLoRA"],["#cv","C.V."]].map(([href, label]) => (
             <a key={href} href={href} className="nav-link"
               style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: C.dim, transition: "color 0.15s" }}>
               {label}
             </a>
           ))}
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginLeft: "auto", minWidth: 0 }}>
+          <div className="nav-tagline" style={{ display: "flex", alignItems: "center", gap: 12, marginLeft: "auto", minWidth: 0 }}>
             <div style={{ width: 8, height: 8, borderRadius: "50%", background: C.yellow, animation: "pulse-dot 2s ease-in-out infinite", flexShrink: 0 }} />
             <Mono style={{ fontSize: 11, color: C.dim, letterSpacing: "0.18em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
               Computational artist · Creative technologist
@@ -200,7 +354,7 @@ export default function LondonHamPortfolio() {
         </div>
 
         {/* clock */}
-        <div style={{
+        <div className="nav-clock" style={{
           display: "flex", alignItems: "center",
           borderLeft: `1px solid ${C.border}`, padding: "0 22px",
           flexShrink: 0,
@@ -212,7 +366,7 @@ export default function LondonHamPortfolio() {
       </nav>
 
       {/* ── HERO ──────────────────────────────────────────────────────── */}
-      <section style={{ position: "relative", overflow: "hidden", minHeight: "68vh", display: "flex", flexDirection: "column", justifyContent: "flex-start", padding: "32px 56px 36px" }}>
+      <section className="hero-section" style={{ position: "relative", overflow: "hidden", minHeight: "68vh", display: "flex", flexDirection: "column", justifyContent: "flex-start", padding: "32px 56px 36px" }}>
         {/* bg elements */}
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 70% 55% at 85% 15%, rgba(42,92,255,0.18), transparent 55%), radial-gradient(ellipse 50% 40% at 10% 80%, rgba(245,230,66,0.07), transparent 50%)`, pointerEvents: "none", zIndex: 0 }} />
         <video
@@ -225,9 +379,9 @@ export default function LondonHamPortfolio() {
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 1 }}
         />
         {/* large decorative rule */}
-        <div style={{ position: "absolute", top: 0, left: 56, right: 0, height: 1, background: `linear-gradient(to right, ${C.yellow}, transparent 40%)`, zIndex: 2 }} />
+        <div className="hero-rule" style={{ position: "absolute", top: 0, left: 56, right: 0, height: 1, background: `linear-gradient(to right, ${C.yellow}, transparent 40%)`, zIndex: 2 }} />
         <motion.div style={{ position: "relative", zIndex: 3, flex: 1, display: "flex", flexDirection: "column" }} initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22,1,0.36,1] }}>
-          <h1 style={{
+          <h1 className="hero-title" style={{
             fontSize: "clamp(52px, 9vw, 80px)",
             lineHeight: 0.88,
             letterSpacing: "-0.05em",
@@ -239,7 +393,7 @@ export default function LondonHamPortfolio() {
             Creative Technologist, working in film, machine learning, and installation art.
           </h1>
 
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 16, marginTop: "auto", marginBottom: -36, flexWrap: "wrap", width: "calc(100% + 112px)", marginLeft: -56 }}>
+          <div className="hero-buttons" style={{ display: "flex", justifyContent: "space-between", gap: 16, marginTop: "auto", marginBottom: -36, flexWrap: "wrap", width: "calc(100% + 112px)", marginLeft: -56 }}>
             <a href="#tfa" style={{
               display: "inline-flex", alignItems: "center", gap: 4,
               padding: "14px 13px", borderRadius: 4,
@@ -266,16 +420,16 @@ export default function LondonHamPortfolio() {
       {/* ══════════════════════════════════════════════════════════════════
           T.F.A.
       ══════════════════════════════════════════════════════════════════ */}
-      <section id="tfa" style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 56px 0" }}>
+      <section id="tfa" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 56px 0" }}>
         <FadeUp>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 48 }}>
+          <div className="project-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 48 }}>
             <div>
               <SectionLabel>Project 01 — Installation Artwork</SectionLabel>
               <h2 style={{ fontSize: "clamp(56px, 9vw, 128px)", lineHeight: 0.85, letterSpacing: "-0.06em", fontWeight: 400, color: C.white }}>
                 T.F.A.
               </h2>
             </div>
-            <div style={{ textAlign: "right", paddingTop: 8 }}>
+            <div className="project-meta" style={{ textAlign: "right", paddingTop: 8 }}>
               <Mono style={{ fontSize: 10, color: C.faint, display: "block", marginBottom: 6 }}>Five-channel video installation</Mono>
               <Mono style={{ fontSize: 10, color: C.faint }}>Custom ML algorithm</Mono>
             </div>
@@ -293,7 +447,7 @@ export default function LondonHamPortfolio() {
 
         {/* 3-col spec grid */}
         <FadeUp delay={0.15}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginBottom: 64 }}>
+          <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginBottom: 64 }}>
             {tfaChannels.map((c) => (
               <div key={c.num} style={{
                 border: `1px solid ${C.border}`, padding: "32px 28px",
@@ -309,7 +463,7 @@ export default function LondonHamPortfolio() {
       </section>
 
       {/* Video */}
-      <section id="tfa-video" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 56px 36px" }}>
+      <section id="tfa-video" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 56px 36px" }}>
         <FadeUp>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
             <SectionLabel>Documentation — Vimeo excerpt</SectionLabel>
@@ -330,10 +484,10 @@ export default function LondonHamPortfolio() {
       </section>
 
       {/* Statement */}
-      <section id="tfa-statement" style={{ borderTop: `1px solid ${C.border}`, maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+      <section id="tfa-statement" className="content-section" style={{ borderTop: `1px solid ${C.border}`, maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
         <FadeUp>
-          <div style={{ display: "grid", gridTemplateColumns: "0.6fr 1.4fr", gap: 64, alignItems: "start" }}>
-            <div style={{ position: "sticky", top: 80 }}>
+          <div className="statement-grid" style={{ display: "grid", gridTemplateColumns: "0.6fr 1.4fr", gap: 64, alignItems: "start" }}>
+            <div className="sticky-note" style={{ position: "sticky", top: 80 }}>
               <SectionLabel>Project statement</SectionLabel>
               <h3 style={{ fontSize: "clamp(26px,3vw,40px)", lineHeight: 1.15, fontWeight: 400, color: C.white, marginBottom: 20 }}>
                 Information overload as installation architecture.
@@ -359,10 +513,10 @@ export default function LondonHamPortfolio() {
 
       {/* Process */}
       <section id="tfa-process" style={{ background: C.blueGhost, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+        <div className="section-inner" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
           <FadeUp>
             <SectionLabel>Process — The hand, the machine, the room</SectionLabel>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginTop: 32, marginBottom: 56 }}>
+            <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginTop: 32, marginBottom: 56 }}>
               {tfaProcess.map((p, i) => (
                 <div key={p.label} style={{ padding: "32px 28px", border: `1px solid ${C.border}`, background: C.navy }}>
                   <Mono style={{ fontSize: 10, color: C.blue, letterSpacing: "0.3em", display: "block", marginBottom: 16, textTransform: "uppercase" }}>0{i+1}</Mono>
@@ -394,20 +548,20 @@ export default function LondonHamPortfolio() {
       </section>
 
       {/* References */}
-      <section style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+      <section className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
         <FadeUp>
           <SectionLabel>References — T.F.A.</SectionLabel>
           <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 24 }}>
             {tfaRefs.map(([num, author, title]) => (
-              <div key={num} className="ref-row" style={{
+              <div key={num} className="ref-row references-row" style={{
                 display: "grid", gridTemplateColumns: "48px 1fr 1fr",
                 alignItems: "center", padding: "18px 0",
                 borderBottom: `1px solid ${C.border}`,
                 transition: "background 0.15s",
               }}>
                 <Mono style={{ fontSize: 11, color: C.faint }}>{num}</Mono>
-                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, color: C.yellow }}>{author}</span>
-                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, color: C.dim, fontStyle: "italic" }}>{title}</span>
+                <span className="references-author" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, color: C.yellow }}>{author}</span>
+                <span className="references-title" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, color: C.dim, fontStyle: "italic" }}>{title}</span>
               </div>
             ))}
           </div>
@@ -420,16 +574,16 @@ export default function LondonHamPortfolio() {
       {/* ══════════════════════════════════════════════════════════════════
           CINELORA
       ══════════════════════════════════════════════════════════════════ */}
-      <section id="cinelora" style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 56px 0" }}>
+      <section id="cinelora" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 56px 0" }}>
         <FadeUp>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 48 }}>
+          <div className="project-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 48 }}>
             <div>
               <SectionLabel>Project 02 — MFA Dissertation / Goldsmiths</SectionLabel>
               <h2 style={{ fontSize: "clamp(48px,8vw,112px)", lineHeight: 0.88, letterSpacing: "-0.05em", fontWeight: 400, color: C.white }}>
                 cine<span style={{ color: C.yellow }}>LoRA</span>
               </h2>
             </div>
-            <div style={{ textAlign: "right", paddingTop: 8 }}>
+            <div className="project-meta" style={{ textAlign: "right", paddingTop: 8 }}>
               <Mono style={{ fontSize: 10, color: C.faint, display: "block", marginBottom: 6 }}>Wan 2.2 / LoRA fine-tuning</Mono>
               <Mono style={{ fontSize: 10, color: C.faint }}>Practice-led research</Mono>
             </div>
@@ -446,10 +600,10 @@ export default function LondonHamPortfolio() {
       </section>
 
       {/* Dissertation PDF */}
-      <section style={{ maxWidth: 1400, margin: "0 auto", padding: "0 56px 36px" }}>
+      <section className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 56px 36px" }}>
         <FadeUp>
           <div style={{ borderBottom: `1px solid ${C.border}`, padding: "24px 0", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <div className="split-actions" style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
               <a href="/LondonHam_CompArts_Dissertation.pdf" target="_blank" rel="noreferrer" style={{
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
                 padding: "13px 22px", borderRadius: 4,
@@ -475,7 +629,7 @@ export default function LondonHamPortfolio() {
       </section>
 
       {/* Research questions */}
-      <section style={{ maxWidth: 1400, margin: "0 auto", padding: "0 56px 36px" }}>
+      <section className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 56px 36px" }}>
         <FadeUp>
           <SectionLabel>Research questions</SectionLabel>
           <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 24 }}>
@@ -491,9 +645,9 @@ export default function LondonHamPortfolio() {
 
       {/* Abstract */}
       <section id="cl-abstract" style={{ background: C.blueGhost, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+        <div className="section-inner" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
           <FadeUp>
-            <div style={{ display: "grid", gridTemplateColumns: "0.55fr 1.45fr", gap: 64 }}>
+            <div className="abstract-grid" style={{ display: "grid", gridTemplateColumns: "0.55fr 1.45fr", gap: 64 }}>
               <div>
                 <SectionLabel>Dissertation abstract</SectionLabel>
                 <h3 style={{ fontSize: "clamp(22px,2.5vw,36px)", lineHeight: 1.2, fontWeight: 400, color: C.white }}>
@@ -511,10 +665,10 @@ export default function LondonHamPortfolio() {
       </section>
 
       {/* Method */}
-      <section id="cl-method" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+      <section id="cl-method" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
         <FadeUp>
           <SectionLabel>Method — Training workflow</SectionLabel>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 2, marginTop: 32 }}>
+          <div className="workflow-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 2, marginTop: 32 }}>
             {clWorkflow.map((w) => (
               <div key={w.step} className="wf-card" style={{
                 border: `1px solid ${C.border}`,
@@ -535,14 +689,14 @@ export default function LondonHamPortfolio() {
 
       {/* Pipeline interactive */}
       <section id="cl-pipeline" style={{ background: C.navyMid, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+        <div className="section-inner" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
           <FadeUp>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 2 }}>
+            <div className="pipeline-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 2 }}>
               {clWorkflow.map((item, i) => {
                 const isExpanded = (i === 0 && isPairingExpanded) || (i === 1 && isCineLoraRevExpanded) || (i === 2 && isComfyUiExpanded) || (i === 3 && isComfyUiAltExpanded);
 
                 return (
-                <div key={item.step} style={{ minHeight: isExpanded ? 260 : 120, border: `1px solid ${C.border}`, background: C.navy, overflow: "hidden", gridColumn: isExpanded ? "span 2" : "auto", transition: "min-height 0.25s ease" }}>
+                <div key={item.step} className={isExpanded ? "pipeline-cell pipeline-cell-expanded" : "pipeline-cell"} style={{ minHeight: isExpanded ? 260 : 120, border: `1px solid ${C.border}`, background: C.navy, overflow: "hidden", gridColumn: isExpanded ? "span 2" : "auto", transition: "min-height 0.25s ease" }}>
                   {i === 0 && (
                     <button
                       type="button"
@@ -614,15 +768,15 @@ export default function LondonHamPortfolio() {
       </section>
 
       {/* Specs + Deliverables */}
-      <section style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+      <section className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
         <FadeUp>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+          <div className="grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
             {/* Specs */}
             <div style={{ border: `1px solid ${C.border}`, padding: "36px 32px" }}>
               <SectionLabel>Technical configuration</SectionLabel>
               <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 20 }}>
                 {clSpecs.map(([k, v]) => (
-                  <div key={k} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 0", borderBottom: `1px solid ${C.border}` }}>
+                  <div key={k} className="spec-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 0", borderBottom: `1px solid ${C.border}` }}>
                     <Mono style={{ fontSize: 12, color: C.faint }}>{k}</Mono>
                     <Mono style={{ fontSize: 12, color: C.white, textAlign: "right" }}>{v}</Mono>
                   </div>
@@ -633,7 +787,7 @@ export default function LondonHamPortfolio() {
             {/* Deliverables */}
             <div style={{ border: `1px solid ${C.border}`, padding: "36px 32px", background: C.yellowGhost }}>
               <SectionLabel>Dissertation artefacts</SectionLabel>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginTop: 20 }}>
+              <div className="deliverables-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginTop: 20 }}>
                 {clDeliverables.map((d) => (
                   <div key={d} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "14px 0", borderBottom: `1px solid ${C.border}` }}>
                     <span style={{ color: C.yellow, fontFamily: "'IBM Plex Mono', monospace", fontSize: 14, flexShrink: 0, marginTop: 1 }}>✓</span>
@@ -647,9 +801,9 @@ export default function LondonHamPortfolio() {
       </section>
 
       {/* C.V. */}
-      <section id="cv" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px 56px" }}>
+      <section id="cv" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px 56px" }}>
         <FadeUp>
-          <div style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "32px 0", display: "grid", gridTemplateColumns: "0.7fr 1.3fr", gap: 48, alignItems: "center" }}>
+          <div className="cv-grid" style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "32px 0", display: "grid", gridTemplateColumns: "0.7fr 1.3fr", gap: 48, alignItems: "center" }}>
             <div>
               <SectionLabel>C.V.</SectionLabel>
               <h3 style={{ fontSize: "clamp(34px,5vw,72px)", lineHeight: 0.9, letterSpacing: "-0.05em", fontWeight: 400, color: C.white }}>
@@ -686,12 +840,12 @@ export default function LondonHamPortfolio() {
       {/* ── FOOTER ────────────────────────────────────────────────────── */}
       <footer style={{ borderTop: `1px solid ${C.border}`, background: C.navyMid }}>
         {/* Full-width name */}
-        <div style={{ borderBottom: `1px solid ${C.border}`, padding: "24px 56px" }}>
+        <div className="footer-name" style={{ borderBottom: `1px solid ${C.border}`, padding: "24px 56px" }}>
           <h2 style={{ fontSize: "clamp(48px,10vw,140px)", lineHeight: 0.9, letterSpacing: "-0.06em", fontWeight: 400, color: C.faint }}>
             London Ham
           </h2>
         </div>
-        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "28px 56px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+        <div className="footer-inner" style={{ maxWidth: 1400, margin: "0 auto", padding: "28px 56px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <Mono style={{ fontSize: 11, color: C.faint }}>© 2025 — Computational Arts, Goldsmiths, University of London</Mono>
           <Mono style={{ fontSize: 11, color: C.faint }}>T.F.A. — cineLoRA — London, UK</Mono>
         </div>
