@@ -5,21 +5,31 @@ import CutoutVid from "./cutoutvid.mp4";
 import PairingImg from "./pairing.jpg";
 import CineLoraRevImg from "./cineLoraRev.jpg";
 import ComfyUiClip from "./ComfyUI_00001_ (1).mp4";
-import ComfyUiClipAlt from "./ComfyUI_00011_.mp4";
+import DriftAnthologyClip from "../assets/DriftAnthology_web.mp4";
+import CineLora500Clip from "../assets/CineLoRA500.8_00001_.mp4";
+import CineLoraEulerS10Cfg50Sh80Clip from "../assets/cineLoRA_s1.0_euler_cfg5.0_sh8.0_st30-15_00001_.mp4";
+import CineLoraEulerS08Cfg50Sh50Clip from "../assets/cineLoRA_s0.8_euler_cfg5.0_sh5.0_st30-15_00001_.mp4";
+import CineLoraEulerS10Cfg60Sh80Clip from "../assets/cineLoRA_s1.0_euler_cfg6.0_sh8.0_st30-15_00001_.mp4";
+import CineLoraEulerS10Cfg50Sh50Clip from "../assets/cineLoRA_s1.0_euler_cfg5.0_sh5.0_st30-15_00001_.mp4";
+import LingBot1Clip from "../assets/LingBot1_web.mp4";
+import LingBot2Clip from "../assets/lingbot2_web.mp4";
+import LingBot3Clip from "../assets/lingbot3_web.mp4";
 
 /* ─── PALETTE & TOKENS ─────────────────────────────────────────────────── */
 const C = {
-  navy:    "#04061a",
-  navyMid: "#080c2e",
-  blue:    "#2a5cff",
-  blueDim: "#1a3aad",
-  blueGhost: "rgba(42,92,255,0.12)",
-  yellow:  "#f5e642",
-  yellowGhost: "rgba(245,230,66,0.07)",
-  white:   "#f0efea",
-  dim:     "rgba(240,239,234,0.42)",
-  faint:   "rgba(240,239,234,0.14)",
-  border:  "rgba(42,92,255,0.22)",
+  navy:    "rgb(156,156,156)",
+  navyMid: "rgb(156,156,156)",
+  blue:    "rgb(156,156,156)",
+  blueDim: "rgb(156,156,156)",
+  blueGhost: "rgba(255,255,255,0.10)",
+  yellow:  "#f3f3ef",
+  yellowGhost: "rgba(255,255,255,0.12)",
+  white:   "#f3f3ef",
+  dim:     "rgba(255,255,255,0.76)",
+  faint:   "rgba(255,255,255,0.42)",
+  border:  "rgba(255,255,255,0.28)",
+  orange:  "#39ff14",
+  orangeGhost: "rgba(57,255,20,0.10)",
 };
 
 /* ─── DATA ──────────────────────────────────────────────────────────────── */
@@ -71,21 +81,48 @@ const clQuestions = [
   "How do low-noise and high-noise training regimes influence the visual identity of generated motion-image outputs?",
 ];
 
+const clEulerClips = [
+  { label: "s1.0 / cfg5 / sh8", src: CineLoraEulerS10Cfg50Sh80Clip },
+  { label: "s0.8 / cfg5 / sh5", src: CineLoraEulerS08Cfg50Sh50Clip },
+  { label: "s1.0 / cfg6 / sh8", src: CineLoraEulerS10Cfg60Sh80Clip },
+  { label: "s1.0 / cfg5 / sh5", src: CineLoraEulerS10Cfg50Sh50Clip },
+];
+
+const lingBotStudies = [
+  { num: "01", label: "World-model image-to-video", body: "Still images are extended into moving scenes through LingBot-World, treating the model as a spatial simulator rather than a conventional editing tool." },
+  { num: "02", label: "Prompted continuity", body: "Text prompts and generated motion are used to test whether atmosphere, staging, and object relations can remain coherent across time." },
+  { num: "03", label: "Camera-guided simulation", body: "The base camera model frames movement as a controllable probe into unstable environments, linking cinematic viewpoint to AI world construction." },
+];
+
+const lingBotClips = [
+  { label: "Interior setup", src: LingBot1Clip },
+  { label: "Outdoor object study", src: LingBot2Clip },
+  { label: "Installation space", src: LingBot3Clip },
+];
+
+const daContexts = [
+  { num: "01", label: "Encrypted poem", body: "A source poem is diffracted through a React and Three.js animation, where repeating letters are withheld from each phrase." },
+  { num: "02", label: "Dérive / drift", body: "The work borrows from Situationist dérive: a passage through varied ambiences shaped by attraction, terrain, and encounter." },
+  { num: "03", label: "Productive error", body: "A debugging accident becomes the project logic, turning incomplete language into a field of perceptual composition." },
+];
+
+const daRefs = [
+  ["01", "Karen Barad", "Diffracting Diffraction: Cutting Together-Apart"],
+  ["02", "Situationist International", "Theory of the Dérive"],
+  ["03", "Roland Barthes", "S/Z: An Essay"],
+];
+
 /* ─── SMALL HELPERS ─────────────────────────────────────────────────────── */
 function Mono({ children, style = {} }) {
-  return <span style={{ fontFamily: "'IBM Plex Mono', monospace", ...style }}>{children}</span>;
+  return <span style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", ...style }}>{children}</span>;
 }
 
 function SectionLabel({ children }) {
   return (
-    <Mono style={{ fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase", color: C.yellow, display: "block", marginBottom: 14 }}>
+    <Mono style={{ fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase", color: C.orange, display: "block", marginBottom: 14 }}>
       {children}
     </Mono>
   );
-}
-
-function Rule() {
-  return <div style={{ height: 1, background: C.border, margin: "0" }} />;
 }
 
 function FadeUp({ children, delay = 0 }) {
@@ -110,6 +147,7 @@ export default function LondonHamPortfolio() {
   const [isCineLoraRevExpanded, setIsCineLoraRevExpanded] = useState(false);
   const [isComfyUiExpanded, setIsComfyUiExpanded] = useState(false);
   const [isComfyUiAltExpanded, setIsComfyUiAltExpanded] = useState(false);
+  const [expandedEulerClip, setExpandedEulerClip] = useState(null);
 
   useEffect(() => {
     const tick = () => {
@@ -126,21 +164,19 @@ export default function LondonHamPortfolio() {
       background: C.navy,
       color: C.white,
       minHeight: "100vh",
-      fontFamily: "'DM Serif Display', Georgia, serif",
+      fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
       overflowX: "hidden",
     }}>
-      {/* Google fonts */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        ::selection { background: ${C.yellow}; color: ${C.navy}; }
+        ::selection { background: ${C.orange}; color: ${C.white}; }
         a { color: inherit; text-decoration: none; }
         button { font-family: inherit; }
         html { scroll-behavior: smooth; }
 
-        .nav-link:hover { color: ${C.yellow} !important; }
-        .ref-row:hover { background: rgba(42,92,255,0.08) !important; }
-        .wf-card:hover { border-color: ${C.blue} !important; transform: translateY(-2px); }
+        .nav-link:hover { color: ${C.orange} !important; }
+        .ref-row:hover { background: rgba(245,245,240,0.06) !important; }
+        .wf-card:hover { border-color: ${C.orange} !important; transform: translateY(-2px); }
         .wf-card { transition: border-color 0.2s, transform 0.2s; }
 
         @media (max-width: 900px) {
@@ -323,7 +359,7 @@ export default function LondonHamPortfolio() {
         position: "sticky", top: 0, zIndex: 50,
         borderBottom: `1px solid ${C.border}`,
         backdropFilter: "blur(18px)",
-        background: "rgba(4,6,26,0.88)",
+        background: "rgba(156,156,156,0.88)",
         display: "flex", alignItems: "stretch", height: 52,
       }}>
         {/* wordmark */}
@@ -332,21 +368,21 @@ export default function LondonHamPortfolio() {
           borderRight: `1px solid ${C.border}`, padding: "0 28px",
           flexShrink: 0,
         }}>
-          <Mono style={{ fontSize: 20, letterSpacing: "0.3em", color: C.yellow, textTransform: "uppercase" }}>
+          <Mono style={{ fontSize: 20, letterSpacing: "0.3em", color: C.yellow, textTransform: "uppercase", fontWeight: 700 }}>
             London Ham
           </Mono>
         </div>
 
         {/* links */}
         <div className="nav-links" style={{ display: "flex", alignItems: "center", padding: "0 24px", gap: 28, flex: 1 }}>
-          {[["#tfa","T.F.A."],["#cinelora","cineLoRA"],["#cv","C.V."]].map(([href, label]) => (
+          {[["#lingbot","LingBot"],["#cinelora","cineLoRA"],["#tfa","T.F.A."],["#drift-anthology","Drift"],["#cv","C.V."]].map(([href, label]) => (
             <a key={href} href={href} className="nav-link"
-              style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: C.dim, transition: "color 0.15s" }}>
+              style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: C.dim, transition: "color 0.15s" }}>
               {label}
             </a>
           ))}
           <div className="nav-tagline" style={{ display: "flex", alignItems: "center", gap: 12, marginLeft: "auto", minWidth: 0 }}>
-            <div style={{ width: 8, height: 8, borderRadius: "50%", background: C.yellow, animation: "pulse-dot 2s ease-in-out infinite", flexShrink: 0 }} />
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: C.orange, animation: "pulse-dot 2s ease-in-out infinite", flexShrink: 0 }} />
             <Mono style={{ fontSize: 11, color: C.dim, letterSpacing: "0.18em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
               Computational artist · Creative technologist
             </Mono>
@@ -360,7 +396,7 @@ export default function LondonHamPortfolio() {
           flexShrink: 0,
         }}>
           <Mono style={{ fontSize: 11, color: C.faint }}>
-            {time} <span style={{ color: C.blue }}>UTC+0</span>
+            {time} <span style={{ color: C.orange }}>UTC+0</span>
           </Mono>
         </div>
       </nav>
@@ -368,7 +404,7 @@ export default function LondonHamPortfolio() {
       {/* ── HERO ──────────────────────────────────────────────────────── */}
       <section className="hero-section" style={{ position: "relative", overflow: "hidden", minHeight: "68vh", display: "flex", flexDirection: "column", justifyContent: "flex-start", padding: "32px 56px 36px" }}>
         {/* bg elements */}
-        <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 70% 55% at 85% 15%, rgba(42,92,255,0.18), transparent 55%), radial-gradient(ellipse 50% 40% at 10% 80%, rgba(245,230,66,0.07), transparent 50%)`, pointerEvents: "none", zIndex: 0 }} />
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 55% at 85% 15%, rgba(245,245,240,0.12), transparent 55%), radial-gradient(ellipse 50% 40% at 10% 80%, rgba(57,255,20,0.055), transparent 50%)", pointerEvents: "none", zIndex: 0 }} />
         <video
           src={AcmeReel}
           autoPlay
@@ -379,197 +415,122 @@ export default function LondonHamPortfolio() {
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 1 }}
         />
         {/* large decorative rule */}
-        <div className="hero-rule" style={{ position: "absolute", top: 0, left: 56, right: 0, height: 1, background: `linear-gradient(to right, ${C.yellow}, transparent 40%)`, zIndex: 2 }} />
-        <motion.div style={{ position: "relative", zIndex: 3, flex: 1, display: "flex", flexDirection: "column" }} initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22,1,0.36,1] }}>
+        <div className="hero-rule" style={{ position: "absolute", top: 0, left: 56, right: 0, height: 1, background: `linear-gradient(to right, ${C.border}, transparent 40%)`, zIndex: 2 }} />
+      </section>
+
+      {/* ── INTRO TEXT ─────────────────────────────────────────────────── */}
+      <section className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 56px" }}>
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22,1,0.36,1] }}>
           <h1 className="hero-title" style={{
             fontSize: "clamp(52px, 9vw, 80px)",
             lineHeight: 0.88,
             letterSpacing: "-0.05em",
             fontWeight: 400,
-            maxWidth: 900,
+            maxWidth: 980,
             color: C.white,
-            marginTop: 60,
           }}>
             Creative Technologist, working in film, machine learning, and installation art.
           </h1>
-
-          <div className="hero-buttons" style={{ display: "flex", justifyContent: "space-between", gap: 16, marginTop: "auto", marginBottom: -36, flexWrap: "wrap", width: "calc(100% + 112px)", marginLeft: -56 }}>
-            <a href="#tfa" style={{
-              display: "inline-flex", alignItems: "center", gap: 4,
-              padding: "14px 13px", borderRadius: 4,
-              background: C.yellow, color: C.navy,
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 500,
-            }}>
-              T.F.A. — Installation ↓
-            </a>
-            <a href="#cinelora" style={{
-              display: "inline-flex", alignItems: "center", gap: 10,
-              padding: "14px 13px", borderRadius: 4,
-              border: `1px solid ${C.blue}`, color: C.white,
-              fontFamily: "'IBM Plex Mono', monospace",
-              fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase",
-              background: C.blueGhost,
-            }}>
-              cineLoRA — Dissertation ↓
-            </a>
-          </div>
         </motion.div>
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
-          T.F.A.
+          LINGBOT
       ══════════════════════════════════════════════════════════════════ */}
-      <section id="tfa" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 56px 0" }}>
+      <section id="lingbot" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 56px 0" }}>
         <FadeUp>
           <div className="project-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 48 }}>
             <div>
-              <SectionLabel>Project 01 — Installation Artwork</SectionLabel>
-              <h2 style={{ fontSize: "clamp(56px, 9vw, 128px)", lineHeight: 0.85, letterSpacing: "-0.06em", fontWeight: 400, color: C.white }}>
-                T.F.A.
+              <SectionLabel>Project 01 — AI world-model experiments</SectionLabel>
+              <h2 style={{ fontSize: "clamp(48px,8vw,112px)", lineHeight: 0.88, letterSpacing: "-0.05em", fontWeight: 400, color: C.white }}>
+                Ling<span style={{ color: C.yellow }}>Bot</span>
               </h2>
             </div>
             <div className="project-meta" style={{ textAlign: "right", paddingTop: 8 }}>
-              <Mono style={{ fontSize: 10, color: C.faint, display: "block", marginBottom: 6 }}>Five-channel video installation</Mono>
-              <Mono style={{ fontSize: 10, color: C.faint }}>Custom ML algorithm</Mono>
+              <Mono style={{ fontSize: 10, color: C.faint, display: "block", marginBottom: 6 }}>LingBot-World</Mono>
+              <Mono style={{ fontSize: 10, color: C.faint }}>Image-to-video simulation</Mono>
             </div>
           </div>
         </FadeUp>
 
-        {/* Subtitle crawl */}
         <FadeUp delay={0.1}>
-          <div style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "18px 0", marginBottom: 56 }}>
-            <p style={{ fontSize: 13, fontFamily: "'IBM Plex Mono', monospace", color: C.dim, letterSpacing: "0.08em", lineHeight: 1.6 }}>
-              Total Fucking Annihilation &nbsp;/&nbsp; True Fantasy Again &nbsp;/&nbsp; Totalitarian Friendly Attitude &nbsp;/&nbsp; Treasure For Apathy &nbsp;/&nbsp; Toxic Family Agenda &nbsp;/&nbsp; Tastee Freeze Authoritarianism &nbsp;/&nbsp; Television For Assholes &nbsp;/&nbsp; Touch Free Access &nbsp;/&nbsp; ...[]
+          <div style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "24px 0", marginBottom: 56 }}>
+            <p style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 14, color: C.dim, lineHeight: 1.8, maxWidth: 940 }}>
+              A series of AI world-model studies made with LingBot-World, an image-to-video system that extends still images into moving scenes through prompt and camera-conditioned generation. The experiments treat generative video as a spatial rehearsal: a way to test how environments, objects, bodies, and camera motion hold together when the image begins to simulate a world.
             </p>
           </div>
         </FadeUp>
 
-        {/* 3-col spec grid */}
         <FadeUp delay={0.15}>
-          <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginBottom: 64 }}>
-            {tfaChannels.map((c) => (
-              <div key={c.num} style={{
-                border: `1px solid ${C.border}`, padding: "32px 28px",
-                background: C.blueGhost,
-              }}>
-                <Mono style={{ fontSize: 28, color: C.blue, display: "block", marginBottom: 16 }}>{c.num}</Mono>
-                <h3 style={{ fontSize: 20, color: C.yellow, fontWeight: 400, marginBottom: 12 }}>{c.label}</h3>
-                <p style={{ fontSize: 14, fontFamily: "'IBM Plex Mono', monospace", color: C.dim, lineHeight: 1.75 }}>{c.body}</p>
+          <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginBottom: 36 }}>
+            {lingBotStudies.map((study) => (
+              <div key={study.num} style={{ border: `1px solid ${C.border}`, padding: "32px 28px", background: C.blueGhost }}>
+                <Mono style={{ fontSize: 28, color: C.blue, display: "block", marginBottom: 16 }}>{study.num}</Mono>
+                <h3 style={{ fontSize: 20, color: C.yellow, fontWeight: 400, marginBottom: 12 }}>{study.label}</h3>
+                <p style={{ fontSize: 13, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: C.dim, lineHeight: 1.75 }}>{study.body}</p>
               </div>
             ))}
           </div>
         </FadeUp>
       </section>
 
-      {/* Video */}
-      <section id="tfa-video" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 56px 36px" }}>
-        <FadeUp>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-            <SectionLabel>Documentation — Vimeo excerpt</SectionLabel>
-            <a href="https://vimeo.com/1116390345?share=copy#t=1m33s" target="_blank" rel="noreferrer"
-              style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, color: C.blue, letterSpacing: "0.15em" }}>
-              Open on Vimeo ↗
-            </a>
-          </div>
-          <div style={{ border: `1px solid ${C.border}`, borderRadius: 2, overflow: "hidden", aspectRatio: "16/9", background: "#000" }}>
-            <iframe
-              src="https://player.vimeo.com/video/1116390345?h=0&badge=0&autopause=0&player_id=0&app_id=58479#t=1m33s"
-              title="T.F.A. by London Ham"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              style={{ width: "100%", height: "100%", display: "block", border: "none" }}
-            />
-          </div>
-        </FadeUp>
+      <section style={{ background: C.navyMid, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div className="section-inner" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+          <FadeUp>
+            <SectionLabel>Generated studies — LingBot-World</SectionLabel>
+            <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginTop: 32 }}>
+              {lingBotClips.map((clip) => (
+                <div key={clip.label} style={{ border: `1px solid ${C.border}`, background: C.navy, overflow: "hidden" }}>
+                  <div style={{ aspectRatio: "16 / 9", background: "#000" }}>
+                    <video
+                      src={clip.src}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
+                    />
+                  </div>
+                  <div style={{ borderTop: `1px solid ${C.border}`, padding: "14px 16px", display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
+                    <Mono style={{ fontSize: 10, color: C.dim, letterSpacing: "0.18em", textTransform: "uppercase" }}>{clip.label}</Mono>
+                    <Mono style={{ fontSize: 10, color: C.faint, letterSpacing: "0.12em", textTransform: "uppercase" }}>AI world model</Mono>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </FadeUp>
+        </div>
       </section>
 
-      {/* Statement */}
-      <section id="tfa-statement" className="content-section" style={{ borderTop: `1px solid ${C.border}`, maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+      <section className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
         <FadeUp>
           <div className="statement-grid" style={{ display: "grid", gridTemplateColumns: "0.6fr 1.4fr", gap: 64, alignItems: "start" }}>
             <div className="sticky-note" style={{ position: "sticky", top: 80 }}>
               <SectionLabel>Project statement</SectionLabel>
               <h3 style={{ fontSize: "clamp(26px,3vw,40px)", lineHeight: 1.15, fontWeight: 400, color: C.white, marginBottom: 20 }}>
-                Information overload as installation architecture.
+                Image generation as scene construction.
               </h3>
-              <div style={{ width: 40, height: 2, background: C.yellow, marginTop: 8 }} />
+              <div style={{ width: 40, height: 2, background: C.orange, marginTop: 8 }} />
             </div>
-            <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 14, lineHeight: 1.9, color: C.dim, display: "flex", flexDirection: "column", gap: 24 }}>
-              <p>T.F.A. is an installation artwork composed of five video channels and a single audio channel. Its image system is supported by a customized version of MediaPipe's Selfie Segmentation in Python: a machine learning algorithm repurposed from human detection and surveillance into a tool for editing, masking, and perceptual interference.</p>
-              <p>The work treats images and audio as readymades. Whether drawn from existing films or prompted through generative AI, the material arrives from a hand that is not the artist's own. Inside the film, human editing and automated segmentation compete for screen time, control, seduction, and authorship.</p>
-              <p>Conceptually, the project joins Byung-Chul Han's account of infomania with Georges Bataille's annihilating excess. The five-channel format is not only a display strategy; it is a spatial metaphor for the enveloping suffocation of multi-directional information.</p>
+            <div style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 14, lineHeight: 1.9, color: C.dim, display: "flex", flexDirection: "column", gap: 24 }}>
+              <p>These LingBot studies sit between cinematic previsualisation, installation documentation, and synthetic set-building. Each clip begins from a still visual proposition and asks the model to infer what kind of physical, atmospheric, and temporal world could surround it.</p>
+              <p>Rather than treating AI video as a finished illusion, the work foregrounds its unstable continuity: objects drift, surfaces hesitate, and movement reveals the assumptions the model makes about space. The generated scenes become tests of world coherence, not just moving images.</p>
               <blockquote style={{
-                borderLeft: `3px solid ${C.yellow}`, paddingLeft: 24,
-                fontFamily: "'DM Serif Display', serif",
+                borderLeft: `3px solid ${C.orange}`, paddingLeft: 24,
+                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
                 fontSize: "clamp(18px,2.2vw,26px)", fontStyle: "italic",
                 lineHeight: 1.5, color: C.white,
               }}>
-                The project asks what happens to the body when automation promises free time, but returns only distracted, fractured, unusable minutes.
+                LingBot becomes a camera pointed at a possible world: one assembled from prompts, source images, learned physics, and cinematic desire.
               </blockquote>
             </div>
           </div>
         </FadeUp>
       </section>
 
-      {/* Process */}
-      <section id="tfa-process" style={{ background: C.blueGhost, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
-        <div className="section-inner" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
-          <FadeUp>
-            <SectionLabel>Process — The hand, the machine, the room</SectionLabel>
-            <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginTop: 32, marginBottom: 56 }}>
-              {tfaProcess.map((p, i) => (
-                <div key={p.label} style={{ padding: "32px 28px", border: `1px solid ${C.border}`, background: C.navy }}>
-                  <Mono style={{ fontSize: 10, color: C.blue, letterSpacing: "0.3em", display: "block", marginBottom: 16, textTransform: "uppercase" }}>0{i+1}</Mono>
-                  <h3 style={{ fontSize: 22, color: C.yellow, fontWeight: 400, marginBottom: 14 }}>{p.label}</h3>
-                  <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, lineHeight: 1.8, color: C.dim }}>{p.body}</p>
-                </div>
-              ))}
-            </div>
-          </FadeUp>
-          <FadeUp delay={0.1}>
-            <div style={{ border: `1px solid ${C.border}`, background: C.navy, overflow: "hidden" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 22px", borderBottom: `1px solid ${C.border}`, gap: 16, flexWrap: "wrap" }}>
-                <Mono style={{ fontSize: 10, color: C.dim, letterSpacing: "0.35em", textTransform: "uppercase" }}>Segmentation study</Mono>
-                <Mono style={{ fontSize: 10, color: C.faint, letterSpacing: "0.18em", textTransform: "uppercase" }}>MediaPipe cutout process</Mono>
-              </div>
-              <div style={{ aspectRatio: "16 / 9", background: "#000" }}>
-                <video
-                  src={CutoutVid}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
-                />
-              </div>
-            </div>
-          </FadeUp>
-        </div>
-      </section>
-
-      {/* References */}
-      <section className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
-        <FadeUp>
-          <SectionLabel>References — T.F.A.</SectionLabel>
-          <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 24 }}>
-            {tfaRefs.map(([num, author, title]) => (
-              <div key={num} className="ref-row references-row" style={{
-                display: "grid", gridTemplateColumns: "48px 1fr 1fr",
-                alignItems: "center", padding: "18px 0",
-                borderBottom: `1px solid ${C.border}`,
-                transition: "background 0.15s",
-              }}>
-                <Mono style={{ fontSize: 11, color: C.faint }}>{num}</Mono>
-                <span className="references-author" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, color: C.yellow }}>{author}</span>
-                <span className="references-title" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, color: C.dim, fontStyle: "italic" }}>{title}</span>
-              </div>
-            ))}
-          </div>
-        </FadeUp>
-      </section>
-
       {/* ── DIVIDER BETWEEN PROJECTS ───────────────────────────────────── */}
-      <div style={{ background: C.yellow, height: 53 }} />
+      <div style={{ background: C.blueDim, height: 53 }} />
 
       {/* ══════════════════════════════════════════════════════════════════
           CINELORA
@@ -592,7 +553,7 @@ export default function LondonHamPortfolio() {
 
         <FadeUp delay={0.1}>
           <div style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "24px 0", marginBottom: 64 }}>
-            <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 14, color: C.dim, lineHeight: 1.8, maxWidth: 900 }}>
+            <p style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 14, color: C.dim, lineHeight: 1.8, maxWidth: 900 }}>
               A practice-led dissertation project examining how LoRA fine-tuning can be used to train a repeatable cinematic style into a generative video model. The project treats fine-tuning not only as a technical procedure but as a creative research method — investigating visual authorship, model adaptation, and the reproducibility of filmic aesthetics.
             </p>
           </div>
@@ -608,7 +569,7 @@ export default function LondonHamPortfolio() {
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
                 padding: "13px 22px", borderRadius: 4,
                 background: C.yellow, color: C.navy,
-                fontFamily: "'IBM Plex Mono', monospace", fontSize: 11,
+                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 11,
                 letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500,
               }}>
                 View PDF
@@ -618,7 +579,7 @@ export default function LondonHamPortfolio() {
                 padding: "13px 22px", borderRadius: 4,
                 border: `1px solid ${C.blue}`, color: C.white,
                 background: C.blueGhost,
-                fontFamily: "'IBM Plex Mono', monospace", fontSize: 11,
+                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 11,
                 letterSpacing: "0.18em", textTransform: "uppercase",
               }}>
                 Download
@@ -636,7 +597,7 @@ export default function LondonHamPortfolio() {
             {clQuestions.map((q, i) => (
               <div key={i} style={{ display: "grid", gridTemplateColumns: "64px 1fr", gap: 24, padding: "28px 0", borderBottom: `1px solid ${C.border}`, alignItems: "start" }}>
                 <Mono style={{ fontSize: 32, color: C.blue, lineHeight: 1 }}>0{i+1}</Mono>
-                <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 14, lineHeight: 1.8, color: C.dim }}>{q}</p>
+                <p style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 14, lineHeight: 1.8, color: C.dim }}>{q}</p>
               </div>
             ))}
           </div>
@@ -654,7 +615,7 @@ export default function LondonHamPortfolio() {
                   A study of trainable cinematic style.
                 </h3>
               </div>
-              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, lineHeight: 1.9, color: C.dim, display: "flex", flexDirection: "column", gap: 20 }}>
+              <div style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 13, lineHeight: 1.9, color: C.dim, display: "flex", flexDirection: "column", gap: 20 }}>
                 <p>cineLoRA is a practice-led dissertation project examining how LoRA fine-tuning can be used to train a repeatable cinematic style into a generative video model. Using Wan 2.2 as the base model, the project treats fine-tuning not only as a technical procedure but as a creative research method for investigating visual authorship, model adaptation, and the reproducibility of filmic aesthetics.</p>
                 <p>The project develops a controlled workflow for preparing paired image-caption data, configuring a remote GPU training environment, caching latents and text encoder outputs, and training separate low-noise and high-noise LoRA checkpoints through Musubi Tuner.</p>
                 <p>Through prompt-based evaluation, visual output comparison, checkpoint logging, and reflective analysis, cineLoRA asks how much stylistic control can be introduced through lightweight adaptation layers without retraining the full model. The final dissertation positions the LoRA checkpoint as both a working creative artefact and a research object for analysing AI-assisted filmmaking practice.</p>
@@ -676,11 +637,11 @@ export default function LondonHamPortfolio() {
                 background: C.navy,
               }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
-                  <span style={{ fontSize: 22, color: C.yellow }}>{w.icon}</span>
+                  <span style={{ fontSize: 22, color: C.orange }}>{w.icon}</span>
                   <Mono style={{ fontSize: 11, color: C.faint }}>{w.step}</Mono>
                 </div>
                 <h4 style={{ fontSize: 16, color: C.white, fontWeight: 400, marginBottom: 12, lineHeight: 1.3 }}>{w.title}</h4>
-                <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, lineHeight: 1.75, color: C.dim }}>{w.body}</p>
+                <p style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 12, lineHeight: 1.75, color: C.dim }}>{w.body}</p>
               </div>
             ))}
           </div>
@@ -750,7 +711,7 @@ export default function LondonHamPortfolio() {
                       style={{ width: "100%", height: "100%", border: "none", padding: 0, background: "transparent", cursor: isComfyUiAltExpanded ? "zoom-out" : "zoom-in", display: "block" }}
                     >
                       <video
-                        src={ComfyUiClipAlt}
+                        src={CineLora500Clip}
                         autoPlay
                         muted
                         loop
@@ -760,6 +721,34 @@ export default function LondonHamPortfolio() {
                     </button>
                   )}
                 </div>
+                );
+              })}
+            </div>
+            <div className="pipeline-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 2, marginTop: 2 }}>
+              {clEulerClips.map((clip, i) => {
+                const isExpanded = expandedEulerClip === i;
+
+                return (
+                  <div key={clip.label} className={isExpanded ? "pipeline-cell pipeline-cell-expanded" : "pipeline-cell"} style={{ minHeight: isExpanded ? 260 : 120, border: `1px solid ${C.border}`, background: C.navy, overflow: "hidden", gridColumn: isExpanded ? "span 2" : "auto", transition: "min-height 0.25s ease" }}>
+                    <button
+                      type="button"
+                      onClick={() => setExpandedEulerClip((expanded) => expanded === i ? null : i)}
+                      aria-label={isExpanded ? `Collapse cineLoRA euler sample ${clip.label}` : `Expand cineLoRA euler sample ${clip.label}`}
+                      style={{ width: "100%", height: "100%", border: "none", padding: 0, background: "transparent", cursor: isExpanded ? "zoom-out" : "zoom-in", display: "block", position: "relative" }}
+                    >
+                      <video
+                        src={clip.src}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        style={{ width: "100%", height: "100%", minHeight: isExpanded ? 260 : 220, display: "block", objectFit: "cover" }}
+                      />
+                      <Mono style={{ position: "absolute", left: 12, bottom: 12, padding: "6px 8px", background: "rgba(156,156,156,0.82)", color: C.white, border: `1px solid ${C.orange}`, fontSize: 9, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+                        {clip.label}
+                      </Mono>
+                    </button>
+                  </div>
                 );
               })}
             </div>
@@ -790,12 +779,279 @@ export default function LondonHamPortfolio() {
               <div className="deliverables-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2, marginTop: 20 }}>
                 {clDeliverables.map((d) => (
                   <div key={d} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "14px 0", borderBottom: `1px solid ${C.border}` }}>
-                    <span style={{ color: C.yellow, fontFamily: "'IBM Plex Mono', monospace", fontSize: 14, flexShrink: 0, marginTop: 1 }}>✓</span>
+                    <span style={{ color: C.orange, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 14, flexShrink: 0, marginTop: 1 }}>✓</span>
                     <Mono style={{ fontSize: 11, color: C.dim, lineHeight: 1.5 }}>{d}</Mono>
                   </div>
                 ))}
               </div>
             </div>
+          </div>
+        </FadeUp>
+      </section>
+
+      {/* ── DIVIDER BETWEEN PROJECTS ───────────────────────────────────── */}
+      <div style={{ background: C.blueDim, height: 53 }} />
+
+      {/* ══════════════════════════════════════════════════════════════════
+          T.F.A.
+      ══════════════════════════════════════════════════════════════════ */}
+      <section id="tfa" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 56px 0" }}>
+        <FadeUp>
+          <div className="project-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 48 }}>
+            <div>
+              <SectionLabel>Project 03 — Installation Artwork</SectionLabel>
+              <h2 style={{ fontSize: "clamp(56px, 9vw, 128px)", lineHeight: 0.85, letterSpacing: "-0.06em", fontWeight: 400, color: C.white }}>
+                T.F.A.
+              </h2>
+            </div>
+            <div className="project-meta" style={{ textAlign: "right", paddingTop: 8 }}>
+              <Mono style={{ fontSize: 10, color: C.faint, display: "block", marginBottom: 6 }}>Five-channel video installation</Mono>
+              <Mono style={{ fontSize: 10, color: C.faint }}>Custom ML algorithm</Mono>
+            </div>
+          </div>
+        </FadeUp>
+
+        {/* Subtitle crawl */}
+        <FadeUp delay={0.1}>
+          <div style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "18px 0", marginBottom: 56 }}>
+            <p style={{ fontSize: 13, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: C.dim, letterSpacing: "0.08em", lineHeight: 1.6 }}>
+              Total Fucking Annihilation &nbsp;/&nbsp; True Fantasy Again &nbsp;/&nbsp; Totalitarian Friendly Attitude &nbsp;/&nbsp; Treasure For Apathy &nbsp;/&nbsp; Toxic Family Agenda &nbsp;/&nbsp; Tastee Freeze Authoritarianism &nbsp;/&nbsp; Television For Assholes &nbsp;/&nbsp; Touch Free Access &nbsp;/&nbsp; ...[]
+            </p>
+          </div>
+        </FadeUp>
+
+        {/* 3-col spec grid */}
+        <FadeUp delay={0.15}>
+          <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginBottom: 64 }}>
+            {tfaChannels.map((c) => (
+              <div key={c.num} style={{
+                border: `1px solid ${C.border}`, padding: "32px 28px",
+                background: C.blueGhost,
+              }}>
+                <Mono style={{ fontSize: 28, color: C.blue, display: "block", marginBottom: 16 }}>{c.num}</Mono>
+                <h3 style={{ fontSize: 20, color: C.yellow, fontWeight: 400, marginBottom: 12 }}>{c.label}</h3>
+                <p style={{ fontSize: 14, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: C.dim, lineHeight: 1.75 }}>{c.body}</p>
+              </div>
+            ))}
+          </div>
+        </FadeUp>
+      </section>
+
+      {/* Video */}
+      <section id="tfa-video" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 56px 36px" }}>
+        <FadeUp>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+            <SectionLabel>Documentation — Vimeo excerpt</SectionLabel>
+            <a href="https://vimeo.com/1116390345?share=copy#t=1m33s" target="_blank" rel="noreferrer"
+              style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 11, color: C.blue, letterSpacing: "0.15em" }}>
+              Open on Vimeo ↗
+            </a>
+          </div>
+          <div style={{ border: `1px solid ${C.border}`, borderRadius: 2, overflow: "hidden", aspectRatio: "16/9", background: "#000" }}>
+            <iframe
+              src="https://player.vimeo.com/video/1116390345?h=0&badge=0&autopause=0&player_id=0&app_id=58479#t=1m33s"
+              title="T.F.A. by London Ham"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              style={{ width: "100%", height: "100%", display: "block", border: "none" }}
+            />
+          </div>
+        </FadeUp>
+      </section>
+
+      {/* Statement */}
+      <section id="tfa-statement" className="content-section" style={{ borderTop: `1px solid ${C.border}`, maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+        <FadeUp>
+          <div className="statement-grid" style={{ display: "grid", gridTemplateColumns: "0.6fr 1.4fr", gap: 64, alignItems: "start" }}>
+            <div className="sticky-note" style={{ position: "sticky", top: 80 }}>
+              <SectionLabel>Project statement</SectionLabel>
+              <h3 style={{ fontSize: "clamp(26px,3vw,40px)", lineHeight: 1.15, fontWeight: 400, color: C.white, marginBottom: 20 }}>
+                Information overload as installation architecture.
+              </h3>
+              <div style={{ width: 40, height: 2, background: C.orange, marginTop: 8 }} />
+            </div>
+            <div style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 14, lineHeight: 1.9, color: C.dim, display: "flex", flexDirection: "column", gap: 24 }}>
+              <p>T.F.A. is an installation artwork composed of five video channels and a single audio channel. Its image system is supported by a customized version of MediaPipe's Selfie Segmentation in Python: a machine learning algorithm repurposed from human detection and surveillance into a tool for editing, masking, and perceptual interference.</p>
+              <p>The work treats images and audio as readymades. Whether drawn from existing films or prompted through generative AI, the material arrives from a hand that is not the artist's own. Inside the film, human editing and automated segmentation compete for screen time, control, seduction, and authorship.</p>
+              <p>Conceptually, the project joins Byung-Chul Han's account of infomania with Georges Bataille's annihilating excess. The five-channel format is not only a display strategy; it is a spatial metaphor for the enveloping suffocation of multi-directional information.</p>
+              <blockquote style={{
+                borderLeft: `3px solid ${C.orange}`, paddingLeft: 24,
+                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+                fontSize: "clamp(18px,2.2vw,26px)", fontStyle: "italic",
+                lineHeight: 1.5, color: C.white,
+              }}>
+                The project asks what happens to the body when automation promises free time, but returns only distracted, fractured, unusable minutes.
+              </blockquote>
+            </div>
+          </div>
+        </FadeUp>
+      </section>
+
+      {/* Process */}
+      <section id="tfa-process" style={{ background: C.blueGhost, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div className="section-inner" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+          <FadeUp>
+            <SectionLabel>Process — The hand, the machine, the room</SectionLabel>
+            <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginTop: 32, marginBottom: 56 }}>
+              {tfaProcess.map((p, i) => (
+                <div key={p.label} style={{ padding: "32px 28px", border: `1px solid ${C.border}`, background: C.navy }}>
+                  <Mono style={{ fontSize: 10, color: C.blue, letterSpacing: "0.3em", display: "block", marginBottom: 16, textTransform: "uppercase" }}>0{i+1}</Mono>
+                  <h3 style={{ fontSize: 22, color: C.yellow, fontWeight: 400, marginBottom: 14 }}>{p.label}</h3>
+                  <p style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 13, lineHeight: 1.8, color: C.dim }}>{p.body}</p>
+                </div>
+              ))}
+            </div>
+          </FadeUp>
+          <FadeUp delay={0.1}>
+            <div style={{ border: `1px solid ${C.border}`, background: C.navy, overflow: "hidden" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 22px", borderBottom: `1px solid ${C.border}`, gap: 16, flexWrap: "wrap" }}>
+                <Mono style={{ fontSize: 10, color: C.dim, letterSpacing: "0.35em", textTransform: "uppercase" }}>Segmentation study</Mono>
+                <Mono style={{ fontSize: 10, color: C.faint, letterSpacing: "0.18em", textTransform: "uppercase" }}>MediaPipe cutout process</Mono>
+              </div>
+              <div style={{ aspectRatio: "16 / 9", background: "#000" }}>
+                <video
+                  src={CutoutVid}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
+                />
+              </div>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* References */}
+      <section className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+        <FadeUp>
+          <SectionLabel>References — T.F.A.</SectionLabel>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 24 }}>
+            {tfaRefs.map(([num, author, title]) => (
+              <div key={num} className="ref-row references-row" style={{
+                display: "grid", gridTemplateColumns: "48px 1fr 1fr",
+                alignItems: "center", padding: "18px 0",
+                borderBottom: `1px solid ${C.border}`,
+                transition: "background 0.15s",
+              }}>
+                <Mono style={{ fontSize: 11, color: C.faint }}>{num}</Mono>
+                <span className="references-author" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 13, color: C.yellow }}>{author}</span>
+                <span className="references-title" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 13, color: C.dim, fontStyle: "italic" }}>{title}</span>
+              </div>
+            ))}
+          </div>
+        </FadeUp>
+      </section>
+
+      {/* ── DIVIDER BETWEEN PROJECTS ───────────────────────────────────── */}
+      <div style={{ background: C.blueDim, height: 53 }} />
+
+      {/* ══════════════════════════════════════════════════════════════════
+          DRIFT ANTHOLOGY
+      ══════════════════════════════════════════════════════════════════ */}
+      <section id="drift-anthology" className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 56px 0" }}>
+        <FadeUp>
+          <div className="project-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 48 }}>
+            <div>
+              <SectionLabel>Project 04 — Web-based poem / Three.js</SectionLabel>
+              <h2 style={{ fontSize: "clamp(48px,8vw,112px)", lineHeight: 0.88, letterSpacing: "-0.05em", fontWeight: 400, color: C.white }}>
+                Drift <span style={{ color: C.yellow }}>Anthology</span>
+              </h2>
+            </div>
+            <div className="project-meta" style={{ textAlign: "right", paddingTop: 8 }}>
+              <Mono style={{ fontSize: 10, color: C.faint, display: "block", marginBottom: 6 }}>React / Three.js</Mono>
+              <Mono style={{ fontSize: 10, color: C.faint }}>Encrypted poem</Mono>
+            </div>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={0.1}>
+          <div style={{ borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "24px 0", marginBottom: 56 }}>
+            <p style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 14, color: C.dim, lineHeight: 1.8, maxWidth: 900 }}>
+              Drift Anthology is an encrypted poem rendered as a browser-based animation. Each phrase can only use each letter of the alphabet once, causing lines with repeating characters to appear incomplete and asking the audience to compose meaning from a partial, drifting field of language.
+            </p>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={0.15}>
+          <div style={{ border: `1px solid ${C.border}`, background: C.navyMid, overflow: "hidden", marginBottom: 36 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 22px", borderBottom: `1px solid ${C.border}`, gap: 16, flexWrap: "wrap" }}>
+              <Mono style={{ fontSize: 10, color: C.dim, letterSpacing: "0.35em", textTransform: "uppercase" }}>Documentation — video excerpt</Mono>
+              <Mono style={{ fontSize: 10, color: C.faint, letterSpacing: "0.18em", textTransform: "uppercase" }}>Drift Anthology</Mono>
+            </div>
+            <div style={{ aspectRatio: "16 / 9", minHeight: 280, background: "#000" }}>
+              <video
+                src={DriftAnthologyClip}
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
+              />
+            </div>
+          </div>
+        </FadeUp>
+      </section>
+
+      <section style={{ background: C.blueGhost, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div className="section-inner" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+          <FadeUp>
+            <SectionLabel>Context — Drift, bloom, diffraction</SectionLabel>
+            <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 2, marginTop: 32 }}>
+              {daContexts.map((c) => (
+                <div key={c.num} style={{ border: `1px solid ${C.border}`, padding: "32px 28px", background: C.navy }}>
+                  <Mono style={{ fontSize: 28, color: C.blue, display: "block", marginBottom: 16 }}>{c.num}</Mono>
+                  <h3 style={{ fontSize: 20, color: C.yellow, fontWeight: 400, marginBottom: 12 }}>{c.label}</h3>
+                  <p style={{ fontSize: 13, fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: C.dim, lineHeight: 1.75 }}>{c.body}</p>
+                </div>
+              ))}
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      <section className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "36px 56px" }}>
+        <FadeUp>
+          <div className="statement-grid" style={{ display: "grid", gridTemplateColumns: "0.6fr 1.4fr", gap: 64, alignItems: "start" }}>
+            <div className="sticky-note" style={{ position: "sticky", top: 80 }}>
+              <SectionLabel>Project statement</SectionLabel>
+              <h3 style={{ fontSize: "clamp(26px,3vw,40px)", lineHeight: 1.15, fontWeight: 400, color: C.white, marginBottom: 20 }}>
+                A private key for public perception.
+              </h3>
+              <div style={{ width: 40, height: 2, background: C.orange, marginTop: 8 }} />
+            </div>
+            <div style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 14, lineHeight: 1.9, color: C.dim, display: "flex", flexDirection: "column", gap: 24 }}>
+              <p>The title draws from dérive, translated as drift, and from anthology as a gathering or collection. Together, the terms describe the motion of the letters as they arrange, disperse, bloom, and refuse stable completion.</p>
+              <p>The work emerged through a mistake in development: a removed section of code caused phrases with repeated letters to render as incomplete. Rather than correct the accident, the project reframes the error through diffraction, treating missing language as an invitation for the viewer to materially compose the poem through perception.</p>
+              <blockquote style={{
+                borderLeft: `3px solid ${C.orange}`, paddingLeft: 24,
+                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+                fontSize: "clamp(18px,2.2vw,26px)", fontStyle: "italic",
+                lineHeight: 1.5, color: C.white,
+              }}>
+                The audience knows that it is a poem, but not the poem itself; the absent text becomes the work's private key.
+              </blockquote>
+            </div>
+          </div>
+        </FadeUp>
+      </section>
+
+      <section className="content-section" style={{ maxWidth: 1400, margin: "0 auto", padding: "0 56px 36px" }}>
+        <FadeUp>
+          <SectionLabel>References — Drift Anthology</SectionLabel>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 24 }}>
+            {daRefs.map(([num, author, title]) => (
+              <div key={num} className="ref-row references-row" style={{
+                display: "grid", gridTemplateColumns: "48px 1fr 1fr",
+                alignItems: "center", padding: "18px 0",
+                borderBottom: `1px solid ${C.border}`,
+                transition: "background 0.15s",
+              }}>
+                <Mono style={{ fontSize: 11, color: C.faint }}>{num}</Mono>
+                <span className="references-author" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 13, color: C.yellow }}>{author}</span>
+                <span className="references-title" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 13, color: C.dim, fontStyle: "italic" }}>{title}</span>
+              </div>
+            ))}
           </div>
         </FadeUp>
       </section>
@@ -816,7 +1072,7 @@ export default function LondonHamPortfolio() {
                   display: "inline-flex", alignItems: "center", justifyContent: "center",
                   padding: "13px 22px", borderRadius: 4,
                   background: C.yellow, color: C.navy,
-                  fontFamily: "'IBM Plex Mono', monospace", fontSize: 11,
+                  fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 11,
                   letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500,
                 }}>
                   View PDF
@@ -826,7 +1082,7 @@ export default function LondonHamPortfolio() {
                   padding: "13px 22px", borderRadius: 4,
                   border: `1px solid ${C.blue}`, color: C.white,
                   background: C.blueGhost,
-                  fontFamily: "'IBM Plex Mono', monospace", fontSize: 11,
+                  fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: 11,
                   letterSpacing: "0.18em", textTransform: "uppercase",
                 }}>
                   Download
@@ -839,15 +1095,9 @@ export default function LondonHamPortfolio() {
 
       {/* ── FOOTER ────────────────────────────────────────────────────── */}
       <footer style={{ borderTop: `1px solid ${C.border}`, background: C.navyMid }}>
-        {/* Full-width name */}
-        <div className="footer-name" style={{ borderBottom: `1px solid ${C.border}`, padding: "24px 56px" }}>
-          <h2 style={{ fontSize: "clamp(48px,10vw,140px)", lineHeight: 0.9, letterSpacing: "-0.06em", fontWeight: 400, color: C.faint }}>
-            London Ham
-          </h2>
-        </div>
         <div className="footer-inner" style={{ maxWidth: 1400, margin: "0 auto", padding: "28px 56px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <Mono style={{ fontSize: 11, color: C.faint }}>© 2025 — Computational Arts, Goldsmiths, University of London</Mono>
-          <Mono style={{ fontSize: 11, color: C.faint }}>T.F.A. — cineLoRA — London, UK</Mono>
+          <Mono style={{ fontSize: 11, color: C.faint }}>LingBot — cineLoRA — T.F.A. — London, UK</Mono>
         </div>
       </footer>
     </main>
